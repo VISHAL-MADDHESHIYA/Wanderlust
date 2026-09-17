@@ -1,3 +1,7 @@
+const dns = require("node:dns/promises");
+
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 if(process.env.NODE_ENV != "production"){
 require('dotenv').config();
 }
@@ -48,8 +52,8 @@ const store = MongoStore.create({
     touchAfter: 24 * 3600,
 });
 
-store.on("error" , ()=>{
-    console.log("Error in MONGO SESSION STORE" , err);
+store.on("error", (err) => {
+    console.log("Error in MONGO SESSION STORE", err);
 });
 
 const sessionOptions = {
@@ -63,11 +67,6 @@ const sessionOptions = {
         httpOnly:true,
     },
 };
-
-
-// app.get("/" , (req , res )=>{
-//     res.send("hii I am Root");
-// }); 
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -89,20 +88,16 @@ app.use((req ,res , next)=>{
     next();
 });
 
-// app.get("/demouser" , async (req , res )=>{
-//     let fakeUser = new User ({
-//         email:"student@gmail.com",
-//         username:"delta-student"
-//     });
-//    let registeredUser = await User.register(fakeUser , "helloworld");
-//    res.send(registeredUser);
-// });
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
+app.use("/", userRouter);
 
 
-app.use("/listings" , listingRouter);
-app.use("/listings/:id/reviews" , reviewRouter);
-app.use("/" , userRouter);
-
+// 404 Error Handler
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
 });
@@ -110,9 +105,10 @@ app.use((req, res, next) => {
 app.use((err , req , res , next )=>{
     let {statusCode =500 , message ="Something Went wrong!"} = err;
     res.status(statusCode).render("error.ejs",{message});
-    // res.status(statusCode).send(message);
 });
 
-app.listen(8080 ,()=>{
- console.log("server is listening to port 8080");
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
 });
