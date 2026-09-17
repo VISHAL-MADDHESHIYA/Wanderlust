@@ -1,58 +1,107 @@
 <style>
-.search-btn{
-    background-color: #fe424d;
-    color: #fff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
-}
-.search-btn:hover {
-    background-color: #fe424d;
-    color: #fff;
-}
-.search-btn i {
-    display: inline;
-    margin-right: 0.5rem;
-}
-.search-inp{
-     border-radius: 25px;
-     padding:0.5rem 3rem 0rem 3rem;
-     font-size: 1rem;
-}
+    .search-btn {
+        background-color: #fe424d;
+        color: #fff;
+        border-radius: 25px;
+        padding: 0 1rem;
+    }
+
+    .search-btn:hover {
+        background-color: #fe424d;
+        color: #fff;
+    }
+
+    .search-btn i {
+        display: inline;
+        margin-right: 0.5rem;
+    }
+
+    .search-inp {
+        border-radius: 25px;
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        width: 280px;
+    }
 </style>
+
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/listings"><i class="fa-brands fa-skyatlas"></i></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+
+        <!-- Logo -->
+        <a class="navbar-brand" href="/listings">
+            <i class="fa-brands fa-skyatlas"></i>
+        </a>
+
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+            <!-- Explore -->
             <div class="navbar-nav">
-                <a class="nav-link" href="/listings">Explore</a>
+                <a class="nav-link" href="/listings">
+                    Explore
+                </a>
             </div>
 
-            <div class="navbar-nav ms-auto">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2 search-inp" 
-                    type="search" 
-                    placeholder="Search Destination"
-                     aria-label="Search" />
+
+            <!-- Search Bar -->
+            <div class="navbar-nav mx-auto">
+
+                <form class="d-flex" role="search" action="/listings" method="GET">
+
+                    <input class="form-control me-2 search-inp" type="search" name="search"
+                        placeholder="Search Destination" aria-label="Search"
+                        value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" />
+
                     <button class="btn search-btn" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>Search
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Search
                     </button>
+
                 </form>
+
             </div>
 
+
+            <!-- Right Navigation -->
             <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/listings/new">Airbnb your home</a>
-                <% if(!currUser){ %>
-                    <a class="nav-link " href="/signup"><b>Sign up</b></a>
-                    <a class="nav-link" href="/login"><b>Log in</b></a>
+
+                <a class="nav-link" href="/listings/new">
+                    Airbnb your home
+                </a>
+
+
+                <% if (!currUser) { %>
+
+                    <a class="nav-link" href="/signup">
+                        <b>Sign up</b>
+                    </a>
+
+                    <a class="nav-link" href="/login">
+                        <b>Log in</b>
+                    </a>
+
                     <% } %>
-                        <% if(currUser){ %>
-                            <a class="nav-link" href="/logout"><b>Log out</b></a>
+
+
+                        <% if (currUser) { %>
+
+                            <a class="nav-link" href="/logout">
+                                <b>Log out</b>
+                            </a>
+
                             <% } %>
+
             </div>
+
         </div>
+
     </div>
 </nav>
